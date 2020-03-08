@@ -1,0 +1,13 @@
+ports:
+  - port: 8080
+    onOpen: open-preview
+tasks:
+  - before: >
+      python3 -m pip install -r requirements.txt && django-admin startproject meusite .
+    init: >
+      python3 manage.py migrate
+    command: >
+      echo "from meusite.settings import *" > meusite/local_settings.py &&
+      echo "ALLOWED_HOSTS = ['*']" >> meusite/local_settings.py &&
+      export DJANGO_SETTINGS_MODULE=meusite.local_settings &&
+      python3 manage.py runserver 0.0.0.0:8080
